@@ -10,3 +10,6 @@
 [submodule "microservices/divice-management"]
 	path = microservices/divice-management
 	url = git@github.com:EderSantos10/ems-algasensors-divice-management.git
+[submodule "microservices/device-management"]
+	path = microservices/device-management
+	url = git@github.com:EderSantos10/ems-algasensors-device-management.git
