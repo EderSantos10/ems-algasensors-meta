@@ -7,3 +7,6 @@
 [submodule "microservices/algasensors-divce-management"]
 	path = microservices/algasensors-divce-management
 	url = git@github.com:EderSantos10/ems-algasensors-divce-management.git
+[submodule "microservices/divice-management"]
+	path = microservices/divice-management
+	url = git@github.com:EderSantos10/ems-algasensors-divice-management.git
