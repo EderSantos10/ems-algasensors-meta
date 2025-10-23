@@ -1,59 +1,103 @@
-# 🌡️ EMS AlgaSensors Meta
+# 🌡️ EMS AlgaSensors - Meta
 
-Sistema distribuído para **monitoramento de sensores de temperatura**, desenvolvido com **Java 21**, **Spring Boot 3** e **RabbitMQ**.  
-O projeto segue uma arquitetura de **microsserviços** voltada à **resiliência**, **desacoplamento** e **boas práticas de mensageria assíncrona**.
+Sistema de **monitoramento de sensores ambientais** desenvolvido em **Java 21** com **Spring Boot 3**, aplicando **arquitetura de microsserviços** e **mensageria com RabbitMQ**.  
+O projeto simula dispositivos de medição que enviam dados de temperatura para uma cadeia de processamento resiliente, distribuída e escalável.
 
 ---
 
-## 🧩 Arquitetura do Projeto
+## 🚀 Visão Geral
 
-A aplicação é composta por três microsserviços independentes, que se comunicam entre si através do **RabbitMQ**, garantindo **tolerância a falhas**, **alta disponibilidade** e **comunicação desacoplada**:
+O **EMS AlgaSensors** é composto por três microsserviços principais:
 
 | Microsserviço | Função Principal |
-|----------------|------------------|
-| 🖥️ `device-management` | Gerencia o cadastro e status dos dispositivos sensores. |
-| 🌡️ `temperature-monitoring` | Gera e publica medições de temperatura em intervalos definidos. |
-| ⚙️ `temperature-processing` | Consome, valida e armazena as leituras recebidas via RabbitMQ. |
+|---------------|------------------|
+| 🧩 **device-management** | Gerencia os dispositivos sensores (registro, status e informações técnicas). |
+| 🌡️ **temperature-monitoring** | Publica periodicamente leituras de temperatura simuladas. |
+| ⚙️ **temperature-processing** | Consome, valida e persiste os dados recebidos via RabbitMQ. |
+
+Esses serviços se comunicam de forma **assíncrona** através do **RabbitMQ**, garantindo **resiliência**, **desacoplamento** e **tolerância a falhas**.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🏗️ Arquitetura
 
-- **Java 21 LTS**
-- **Spring Boot 3**
-- **Gradle**
-- **RabbitMQ**
-- **Docker & Docker Compose**
-- **YAML Config**
-- **Lombok**
-- **Spring RestClient**
-- **Spring AMQP**
+A arquitetura é baseada em **microsserviços independentes**, cada um com seu próprio ciclo de vida, configuração e responsabilidades bem definidas.
+
+``mermaid
+graph LR
+A[Device Management] -->|HTTP/REST| B[Temperature Monitoring]
+B -->|Mensagem via RabbitMQ| C[Temperature Processing]
+C --> D[(Banco de Dados)]
+Mensageria: RabbitMQ garante que mensagens não se percam, mesmo em caso de falhas temporárias.
+
+Escalabilidade: Cada microsserviço pode ser escalado independentemente.
+
+Resiliência: Implementa estratégias de retry e fila de dead-letter (DLQ).
+
+⚙️ Tecnologias Utilizadas
+
+☕ Java 21
+
+🧩 Spring Boot 3
+
+🐇 RabbitMQ
+
+🧱 Gradle
+
+🐳 Docker & Docker Compose
+
+🧠 Spring RestClient
+
+🧰 Lombok
+
+📜 YAML Configurations
+
+🧠 Princípios e Habilidades Aplicadas
+
+✅ Clean Code – Código claro, coeso e de fácil manutenção.
+
+🔄 Resiliência – Tolerância a falhas e recuperação automática de filas.
+
+🧩 Desacoplamento – Comunicação via mensageria, reduzindo dependências diretas.
+
+🧠 Arquitetura de Microsserviços – Independência entre serviços e implantação modular.
+
+⚙️ Boas práticas com RabbitMQ – Exchanges, bindings e filas de dead-letter.
+
+📦 Configuração via YAML – Facilita parametrização e ambiente customizado.
+
+🧪 Execução com Docker Compose
+
+Para executar todo o ambiente:
+
+# Subir os containers
+docker-compose up -d --build
+
+# Parar e remover containers
+docker-compose down
+
+
+O RabbitMQ ficará disponível em:
+
+Painel Web: http://localhost:15672
+
+(usuário: guest, senha: guest)
+
+📂 Estrutura de Pastas
+ems-algasensors-meta/
+├── configs/                 # Configurações do RabbitMQ
+├── microservices/
+│   ├── device-management/   # Gerenciamento de dispositivos
+│   ├── temperature-monitoring/  # Publicação de dados
+│   └── temperature-processing/  # Processamento de dados
+├── docker-compose.yml
+└── README.md
+
+👨‍💻 Autor
+
+Eder Santos
+Desenvolvedor Java | Entusiasta em Microsserviços, Automação e IA
+📧 Contato: github.com/EderSantos10
+
 
 ---
-
-## 🧠 Habilidades e Princípios Aplicados
-
-- **Clean Code**: código claro, coeso e de fácil manutenção.  
-- **Microsserviços**: modularidade e isolamento de responsabilidades.  
-- **Resiliência**: tratamento de falhas e reconexões automáticas com RabbitMQ.  
-- **Desacoplamento**: comunicação assíncrona entre serviços.  
-- **Boas práticas com Mensageria**: uso de filas e tópicos de forma eficiente.  
-- **Escalabilidade horizontal** com containers independentes.  
-
----
-
-## ⚙️ Execução do Projeto com Docker
-
-### Pré-requisitos
-- Docker e Docker Compose instalados  
-- Porta `5672` (RabbitMQ) disponível  
-
-### Comandos
-
-```bash
-# 1. Clonar o repositório principal
-git clone --recurse-submodules https://github.com/EderSantos10/ems-algasensors-meta.git
-cd ems-algasensors-meta
-
-# 2. Subir os containers
-docker-compose up --build
